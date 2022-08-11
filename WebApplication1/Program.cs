@@ -24,11 +24,11 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=CreateQRCode}/{id?}");
+        pattern: "{controller=Home}/{action=CreateQRCode}");
 
     endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=DownloadQRCode}/{id?}");
+        name: "main",
+        pattern: "{controller=Home}/{action=CreateQRCode}/{id}");
 });
 
 app.Run();

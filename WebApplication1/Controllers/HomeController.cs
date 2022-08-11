@@ -19,6 +19,15 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult CreateQRCode(QRCodeModel qRCode)
         {
+            if (qRCode.IsForFacebook && qRCode.OperatingSystem == "ios")
+            {
+                qRCode.QRCodeText = $"fb://profile/{qRCode.QRCodeText}";
+            }
+            else if (qRCode.IsForFacebook && qRCode.OperatingSystem == "android")
+            {
+                qRCode.QRCodeText = $"fb://page/{qRCode.QRCodeText}";
+            }
+
             var QrGenerator = new QRCodeGenerator();
             QRCodeData QrCodeInfo = QrGenerator.CreateQrCode(qRCode.QRCodeText, QRCodeGenerator.ECCLevel.Q);
             var QrCode = new QRCode(QrCodeInfo);

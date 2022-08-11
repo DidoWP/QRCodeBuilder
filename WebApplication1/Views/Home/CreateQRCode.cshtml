@@ -14,28 +14,49 @@
                 <input asp-for="QRCodeText" class="form-control" />
                 <span asp-validation-for="QRCodeText" class="text-danger"></span>
             </div>
+
+            <div class="form-check">
+                <input asp-for="IsForFacebook" class="form-check-input" type="checkbox" id="flexCheckDefault"
+                       onchange="var ios = document.getElementById('radioIOS');
+                                 var android = document.getElementById('radioAndroid');
+                                 ios.disabled = !this.checked;
+                                 android.disabled = !this.checked;
+                                 if (!this.checked) {
+                                     android.checked = false;
+                                     ios.checked = false;
+                                 } else {
+                                     ios.checked = true;
+                                 }">
+                <label asp-for="IsForFacebook" class="form-check-label" for="flexCheckDefault"> Facebook link </label>
+            </div>
+            <div class="form-group form-check-inline">
+                <input asp-for="OperatingSystem" class="form-check-input" type="radio" id="radioIOS" name="flexRadioDefault" value="ios" disabled>
+                <label asp-for="OperatingSystem" class="form-check-label" for="radioIOS"> IOS </label>
+            </div>
+            <div class="form-group form-check-inline">
+                <input asp-for="OperatingSystem" class="form-check-input" type="radio" id="radioAndroid" name="flexRadioDefault" value="android" disabled>
+                <label asp-for="OperatingSystem" class="form-check-label" for="radioAndroid"> Android </label>
+            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Generate QR Code" class="btn btn-primary text-center" />
             </div>
 
-            @if(@Model.QRCodeText != "")
+            @if (@Model.QRCodeText != "")
             {
                 <div class="form-group">
                     <img src="@Model.CodeString" class="img-thumbnail" />
                 </div>
-
                 <div class="form-group">
-                    <a download="GeneratedQrCode" href="@Model.CodeString"  class="btn btn-success">Download</a>
+                    <a download="GeneratedQrCode" href="@Model.CodeString" class="btn btn-success"> Download </a>
                 </div>
             }
-            
-        </form>
-
-        <form asp-action="DownloadQRCode">
-            
         </form>
     </div>
 </div>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
