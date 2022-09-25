@@ -1,4 +1,4 @@
-﻿@model WebApplication1.Models.QRCodeModel
+﻿@model QRCodeBuilder.Models.QRCodeModel
 
 @{
     ViewData["Title"] = "www.QRCodeGenerator.com";
@@ -9,37 +9,39 @@
         <form asp-action="CreateQRCode">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="QRCodeText" class="control-label">Enter your link:</label>
+                <label asp-for="QRCodeText" class="control-label" id="qrUrlLabel">Enter your link:</label>
                 <br />
-                <input asp-for="QRCodeText" class="form-control" />
+                <input asp-for="QRCodeText" class="form-control" id="qrUrl" />
                 <span asp-validation-for="QRCodeText" class="text-danger"></span>
             </div>
-
+            
             <div class="form-check">
-                <input asp-for="IsForFacebook" class="form-check-input" type="checkbox" id="flexCheckDefault"
+                <input asp-for="IsForFacebook" class="form-check-input" type="checkbox" id="fbCheck" on
                        onchange="var ios = document.getElementById('radioIOS');
                                  var android = document.getElementById('radioAndroid');
+
                                  ios.disabled = !this.checked;
                                  android.disabled = !this.checked;
+
                                  if (!this.checked) {
+                                      document.getElementById('qrUrlLabel').innerHTML = 'Enter your link:';
                                      android.checked = false;
                                      ios.checked = false;
                                  } else {
+                                     document.getElementById('qrUrlLabel').innerHTML = 'Enter Page Id:';
                                      ios.checked = true;
                                  }">
+
                 <label asp-for="IsForFacebook" class="form-check-label" for="flexCheckDefault"> Facebook link </label>
             </div>
-            <div class="form-group form-check-inline">
-                <input asp-for="OperatingSystem" class="form-check-input" type="radio" id="radioIOS" name="flexRadioDefault" value="ios" disabled>
-                <label asp-for="OperatingSystem" class="form-check-label" for="radioIOS"> IOS </label>
+
+            <div class="form-group form-check-inline" id="operatingSystems">
+                @Html.RadioButtonFor(m => m.OperatingSystem, "ios", new { @class="form-check-input", id="radioIOS", disabled = "disabled", }) IOS 
+                @Html.RadioButtonFor(m => m.OperatingSystem, "android", new { @class="form-check-input", id="radioAndroid", disabled = "disabled"}) Android
             </div>
-            <div class="form-group form-check-inline">
-                <input asp-for="OperatingSystem" class="form-check-input" type="radio" id="radioAndroid" name="flexRadioDefault" value="android" disabled>
-                <label asp-for="OperatingSystem" class="form-check-label" for="radioAndroid"> Android </label>
-            </div>
-            
+    
             <div class="form-group">
-                <input type="submit" value="Generate QR Code" class="btn btn-primary text-center" />
+                <input type="submit" value="Generate QR Code" class="btn btn-primary text-center"  />
             </div>
 
             @if (@Model.QRCodeText != "")

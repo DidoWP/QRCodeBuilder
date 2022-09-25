@@ -1,4 +1,4 @@
-﻿using WebApplication1.Models;
+﻿using QRCodeBuilder.Models;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
 using System;
@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace WebApplication1.Controllers
+namespace QRCodeBuilder.Controllers
 {
     public class HomeController : Controller
     {
@@ -34,16 +34,10 @@ namespace WebApplication1.Controllers
             Bitmap QrBitmap = QrCode.GetGraphic(60);
             byte[] BitmapArray = QrBitmap.BitmapToByteArray();
             string QrUri = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(BitmapArray));
-            //ViewBag.QrCodeUri = QrUri;
 
             qRCode.CodeString = QrUri;
+           
             return View(qRCode);
-        }
-
-        [HttpPost]
-        public IActionResult DownloadQRCode(QRCodeModel qRCode)
-        {
-            return View();
         }
     }
 
